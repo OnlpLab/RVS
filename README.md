@@ -1,4 +1,4 @@
-# RVS: A Novel Dataset for Spatial Compositional Reasoning 
+# RVS: A Novel Dataset for Spatial Allocentric Reasoning 
 
 ## Data
 
