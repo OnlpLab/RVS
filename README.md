@@ -2,7 +2,7 @@
 
 ## Data
 
-The instructions can be found [here](https://github.com/tzuf/RVS/tree/main/dataset)
+The instructions can be found [here](https://github.com/OnlpLab/RVS/tree/main/dataset)
 
 
 The data contains four json files corresponding to four split-sets: train (Manhattan), seen-city development (Manhattan), unseen-city development (Pittsburgh) ,and test (Philadelphia).
