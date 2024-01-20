@@ -4,8 +4,6 @@
 
 The instructions can be found [here](https://github.com/tzuf/RVS/tree/main/dataset)
 
-The map-graph can be found [here](https://drive.google.com/drive/folders/1bvxNeIlN1SKeup6aJgIUzWrQ8v-cL9Yq?usp=sharing)
-
 
 The data contains four json files corresponding to four split-sets: train (Manhattan), seen-city development (Manhattan), unseen-city development (Pittsburgh) ,and test (Philadelphia).
 
@@ -14,6 +12,10 @@ Each sample contains the following:
 * content - navigation instruction.
 * rvs_start_point -  the coordinates of the start location.
 * rvs_goal_point - the coordinates of the goal location.
+
+
+The map-graph can be found [here](https://drive.google.com/drive/folders/1bvxNeIlN1SKeup6aJgIUzWrQ8v-cL9Yq?usp=sharing)
+
 
 
 ## Run model
