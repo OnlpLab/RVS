@@ -1,4 +1,4 @@
-# RVS: A Novel Dataset for Spatial Allocentric Reasoning 
+# Rendezvous (RVS): A Novel Dataset for Spatial Allocentric Reasoning 
 
 ## Data
 
