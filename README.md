@@ -2,7 +2,7 @@
 
 ## Data
 
-The instructions can be found [here](https://github.com/OnlpLab/RVS/tree/main/dataset)
+The navigation instructions can be found in this repository -  [here](https://github.com/OnlpLab/RVS/tree/main/dataset) or can be downloaded from HuggingFace - [here](https://huggingface.co/datasets/tzufi/RVS/)
 
 The map-graph can be found [here](https://drive.google.com/drive/folders/1bvxNeIlN1SKeup6aJgIUzWrQ8v-cL9Yq?usp=sharing)
 
