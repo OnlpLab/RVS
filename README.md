@@ -4,7 +4,7 @@ Rendezvous (RVS) is a corpus for executing navigation instructions and resolving
 geospatial instructions given in colloquial language based on a dense urban map. 
 
 The details of the corpus and task are described in: Where Do We Go from Here? Multi-scale Allocentric Relational Inference from Natural Spatial Descriptions. 
-Paper: [here](https://arxiv.org/pdf/2402.16364.pdf).
+Paper: [Where Do We Go from Here?](https://arxiv.org/pdf/2402.16364.pdf).
 
 ## Data
 
