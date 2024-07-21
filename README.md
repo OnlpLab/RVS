@@ -1,9 +1,13 @@
-# Rendezvous (RVS): A Novel Dataset for Spatial Allocentric Reasoning 
+# Papaers:
+## 1. Rendezvous (RVS): A Novel Dataset for Spatial Allocentric Reasoning 
 
 Rendezvous (RVS) is a corpus for executing navigation instructions and resolving spatial descriptions based on maps. The task is to follow
 geospatial instructions given in colloquial language based on a dense urban map. 
 
-The details of the corpus and task are described in: [Where Do We Go from Here? Multi-scale Allocentric Relational Inference from Natural Spatial Descriptions](https://arxiv.org/pdf/2402.16364.pdf).
+The details of the corpus and task are described in: [Where Do We Go from Here? Multi-scale Allocentric Relational Inference from Natural Spatial Descriptions]([https://arxiv.org/pdf/2402.16364.pdf](https://aclanthology.org/2024.eacl-long.62/)).
+
+## 2. Into the Unknown: Generating Geospatial Descriptions for New Environments
+Using RVS data we propose a large-scale augmentation method for generating high-quality synthetic data for new environments using readily available geospatial data. Our method constructs a grounded knowledge-graph, capturing entity relationships. We compare data generated data with LLMs and CFG.
 
 ## Data
 
