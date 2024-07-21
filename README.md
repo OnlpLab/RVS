@@ -36,6 +36,9 @@ python3 -m pip install -r requirements.txt
 ### Install BAZEL
 ```
 apt install bazel
+
+or follow the instructions on [BAZEL website](https://bazel.build/install)
+
 ```
 
 ### BAZEL: Build
