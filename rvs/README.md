@@ -1,4 +1,4 @@
-# Rendezvous(RVS): Location Finding using Nearby Landmarks
+# Rendezvous (RVS): Spatial Compositional Reasoning Task
 
 ### (1) Creating an OSM-based graph
 ```
@@ -13,7 +13,10 @@ bazel-bin/rvs/data/metagraph/create_graph_embedding  --region REGION --s2_level 
 bazel-bin/rvs/geo/sample_poi --region REGION --min_s2_level LEVEL --directory DIRECTORY_TO_MAP --path PATH_TO_SPATIAL_ITEMS.gpkg --n_samples NUMBER_OF_SAMPLES_TO_GENERATE
 ```
 
-### (4) Running the model 
+### (4) Generating spatial synthetic instructions based on samples (3)
+bazel-bin/rvs/generation/generate_synth --geo_data_path PATH_TO_SPATIAL_ITEMS.gpkg 
+
+### (5) Running the model 
 ```
-bazel-bin/rvs/model/text/model_trainer  --data_dir RAW_DATASET --dataset_dir PROCESSED_DATASET --train_region TRAIN_REGION --dev_region DEV_REGION --test_region TEST_REGION --s2_level LEVEL --output_dir PATH_TO_SAVE_RESULT --task human --model S2-Generation-T5-text-start-embedding-to-landmarks --graph_codebook 50 --train_graph_embed_path PATH_GRAPH_TRAIN --dev_graph_embed_path PATH_GRAPH_DEV --test_graph_embed_path PATH_GRAPH_TEST
+bazel-bin/rvs/model/text/model_trainer  --raw_data_dir RAW_DATASET --processed_data_dir PROCESSED_DATASET --train_region TRAIN_REGION --dev_region DEV_REGION --test_region TEST_REGION --s2_level LEVEL --output_dir PATH_TO_SAVE_RESULT --task human --model S2-Generation-T5-text-start-embedding-to-landmarks --graph_codebook 50 --train_graph_embed_path PATH_GRAPH_TRAIN --dev_graph_embed_path PATH_GRAPH_DEV --test_graph_embed_path PATH_GRAPH_TEST
 ```
