@@ -9,7 +9,7 @@ The details of the corpus and task are described in: [Where Do We Go from Here? 
 ## 2. Into the Unknown: Generating Geospatial Descriptions for New Environments
 Using RVS data we propose a large-scale augmentation method for generating high-quality synthetic data for new environments using readily available geospatial data. Our method constructs a grounded knowledge-graph, capturing entity relationships. We compare data generated data with LLMs and CFG.
 
-The details of the ugmentation experiments are described in: [Into the Unknown: Generating Geospatial Descriptions for New Environments]([https://arxiv.org/pdf/2402.16364.pdf](https://arxiv.org/abs/2406.19967).
+The details of the ugmentation experiments are described in: [Into the Unknown: Generating Geospatial Descriptions for New Environments](https://arxiv.org/abs/2406.19967).
 
 ## Data
 
