@@ -11,6 +11,7 @@ OUTPUT_DIR_MODEL_RVS_FIXED_4=$OUTPUT_DIR_MODEL/rvs/fixed_4
 OUTPUT_DIR_MODEL_RVS_FIXED_5=$OUTPUT_DIR_MODEL/rvs/fixed_5
 
 OUTPUT_DIR_MODEL_HUMAN=$OUTPUT_DIR_MODEL/human
+OUTPUT_DIR_MODEL_AUGMENTATION=$OUTPUT_DIR_MODEL/augmentation
 
 
 
@@ -33,6 +34,29 @@ GRAPH_EMBEDDING_PATH=$MAP_DIR/graph_embedding.pth
 bazel-bin/rvs/data/metagraph/create_graph_embedding  --region $REGION_NAME --dimensions 224 --s2_level 15 --s2_node_levels 15 --base_osm_map_filepath $MAP_DIR --save_embedding_path $GRAPH_EMBEDDING_PATH --num_walks 2 --walk_length 2
 
 echo "****************************************"
+echo "*              Wikidata                *"
+echo "****************************************"
+bazel-bin/rvs/data/wikidata/extract_geofenced_wikidata_items --region $REGION_NAME
+
+echo "****************************************"
+echo "*              Wikipedia               *"
+echo "****************************************"
+bazel-bin/rvs/data/wikipedia/extract_wikipedia_items --titles=New_York_Stock_Exchange,Empire_State_Building
+
+echo "****************************************"
+echo "*              Wikigeo                 *"
+echo "****************************************"
+bazel-bin/rvs/data/create_wikigeo_dataset --region $REGION_NAME --output_dir $OUTPUT_DIR/wikigeo
+bazel-bin/rvs/data/create_wikigeo_dataset --region $REGION_NAME --output_dir $OUTPUT_DIR/wikigeo --osm_path $MAP_DIR/utaustin_poi.pkl
+
+echo "**********************************************"
+echo "* Generate CFG-based data for augmentation   *"
+echo "**********************************************"
+bazel-bin/rvs/generation/generate_synth --geo_data_path $MAP_DIR/utaustin_geo_paths.gpkg --save_instruction_dir $OUTPUT_DIR
+
+
+
+echo "****************************************"
 echo "*                 models               *"
 echo "****************************************"
 mkdir -p $OUTPUT_DIR_MODEL
@@ -40,6 +64,8 @@ mkdir -p $OUTPUT_DIR_MODEL_RVS
 mkdir -p $OUTPUT_DIR_MODEL_RVS_FIXED_4
 mkdir -p $OUTPUT_DIR_MODEL_RVS_FIXED_5
 mkdir -p $OUTPUT_DIR_MODEL_HUMAN
+mkdir -p $OUTPUT_DIR_MODEL_AUGMENTATION
+
 
 echo "*                 Dual-Encoder-Bert  - HUMAN DATA             *"
 bazel-bin/rvs/model/text/model_trainer  --raw_data_dir ~/RVS/dataset --processed_data_dir $OUTPUT_DIR_MODEL_HUMAN --train_region Manhattan --dev_region Manhattan --test_region Manhattan --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task RVS --model Dual-Encoder-Bert 
@@ -60,21 +86,15 @@ echo "*                Baseline           *"
 bazel-bin/rvs/model/baselines --raw_data_dir ~/RVS/dataset --metrics_dir $OUTPUT_DIR_MODEL_HUMAN  --task RVS --region Philadelphia 
 
 
-echo "****************************************"
-echo "*              Wikidata                *"
-echo "****************************************"
-bazel-bin/rvs/data/wikidata/extract_geofenced_wikidata_items --region $REGION_NAME
+echo "*                Pre-train on CFG-Augmentation Data            *"
+bazel-bin/rvs/model/text/model_trainer  --raw_data_dir $OUTPUT_DIR --processed_data_dir $OUTPUT_DIR_MODEL_AUGMENTATION --train_region $REGION_NAME --dev_region $REGION_NAME --test_region $REGION_NAME --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_AUGMENTATION --num_epochs 1 --task Synthetic --model S2-Generation-T5-text-start-embedding-to-landmarks  --train_batch_size 20 --test_batch_size 40 --far_distance_threshold 2
 
-echo "****************************************"
-echo "*              Wikipedia               *"
-echo "****************************************"
-bazel-bin/rvs/data/wikipedia/extract_wikipedia_items --titles=New_York_Stock_Exchange,Empire_State_Building
+echo "*                Fine-tune on RVS Data           *"
+bazel-bin/rvs/model/text/model_trainer --raw_data_dir ~/RVS_AUG/dataset --processed_data_dir $OUTPUT_DIR_MODEL_HUMAN  --train_region Manhattan --dev_region Manhattan --test_region Manhattan_dev --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_HUMAN --num_epochs 1 --task RVS --model S2-Generation-T5-text-start-embedding-to-landmarks  --train_batch_size 20 --test_batch_size 40 --size_of_train_split 10
 
-echo "****************************************"
-echo "*              Wikigeo                 *"
-echo "****************************************"
-bazel-bin/rvs/data/create_wikigeo_dataset --region $REGION_NAME --output_dir $OUTPUT_DIR/wikigeo
-bazel-bin/rvs/data/create_wikigeo_dataset --region $REGION_NAME --output_dir $OUTPUT_DIR/wikigeo --osm_path $MAP_DIR/utaustin_poi.pkl
+
+echo "*                Pre-train on WikiGeo-Augmentation Data             *"
+bazel-bin/rvs/model/text/model_trainer  --raw_data_dir $OUTPUT_DIR/wikigeo --processed_data_dir $OUTPUT_DIR_MODEL_AUGMENTATION --train_region $REGION_NAME --dev_region $REGION_NAME --test_region $REGION_NAME --s2_level 15 --output_dir $OUTPUT_DIR_MODEL_AUGMENTATION --num_epochs 1 --task WikiGeo --model S2-Generation-T5-text-start-embedding-to-landmarks  --train_batch_size 20 --test_batch_size 40
 
 
 echo "Delete DATA"
